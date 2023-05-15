@@ -42,3 +42,11 @@ jobs:
 
       - name: Build
         run: bash build.sh
+
+      - name: Upload prebuilt files
+        uses: actions/upload-artifact@v3
+        with:
+          name: my-artifact
+          path: |
+            wasm.html
+            build.em/cacl.wasm

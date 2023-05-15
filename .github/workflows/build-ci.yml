@@ -1,0 +1,44 @@
+
+env:
+  EM_VERSION: 3.1.38
+  EM_CACHE_FOLDER: 'emsdk-cache'
+
+name: build-ci
+
+# Controls when the action will run. 
+on: [push]
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  # This workflow contains a single job called "build"
+
+  osx:
+    # The type of runner that the job will run on
+    runs-on: macos-12
+    
+    strategy:
+      matrix:
+        arch:
+          - x64
+    
+    env:
+      BUILD_TARGET: osx
+      BUILD_ARCH: ${{ matrix.arch }}
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v3
+      # - name: Setup cache
+      #   id: cache-system-libraries
+      #   uses: actions/cache@v2
+      #   with:
+      #     path: ${{env.EM_CACHE_FOLDER}}
+      #     key: ${{env.EM_VERSION}}-${{ runner.os }}
+      - uses: mymindstorm/setup-emsdk@v11
+
+      - name: Verify emsdk
+        run:  emcc -v
+
+      - name: Build
+        run: bash build.sh

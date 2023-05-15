@@ -49,4 +49,4 @@ jobs:
           name: my-artifact
           path: |
             wasm.html
-            build.em/cacl.wasm
+            build.em/calc.wasm
